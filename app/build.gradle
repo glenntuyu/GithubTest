@@ -2,7 +2,10 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
 }
+
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdk 32
@@ -34,6 +37,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    packagingOptions {
+        pickFirst  'META-INF/gradle/incremental.annotation.processors'
+    }
 }
 
 dependencies {
@@ -46,6 +53,7 @@ dependencies {
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -53,7 +61,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
 
     implementation "com.google.dagger:hilt-android:2.38.1"
-    implementation "com.google.dagger:hilt-android-compiler:2.38.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

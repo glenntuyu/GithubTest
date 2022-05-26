@@ -1,14 +1,14 @@
 package com.astro.test.glenntuyu.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import androidx.viewbinding.ViewBinding
 import com.astro.test.glenntuyu.R
 import com.astro.test.glenntuyu.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var viewBinding: ActivityMainBinding? = null

@@ -11,6 +11,7 @@ import com.astro.test.glenntuyu.domain.GetUserListUseCase
 import com.astro.test.glenntuyu.ui.intent.HomeIntent
 import com.astro.test.glenntuyu.ui.viewstate.HomeState
 import com.astro.test.glenntuyu.util.Constant.DEFAULT_QUERY
+import com.astro.test.glenntuyu.util.Constant.DESCENDING
 import com.astro.test.glenntuyu.util.Constant.LAST_QUERY_SCROLLED
 import com.astro.test.glenntuyu.util.Constant.LAST_SEARCH_QUERY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,7 +54,7 @@ class HomeViewModel @Inject constructor(
 
         userPagingDataFlow = searches
             .flatMapLatest {
-                getUserListUseCase.getUserList(it.query)
+                getUserListUseCase.getUserList(it.query, DESCENDING)
             }
             .cachedIn(viewModelScope)
 

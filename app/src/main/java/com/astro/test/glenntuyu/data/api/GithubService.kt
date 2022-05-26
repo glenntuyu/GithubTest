@@ -12,11 +12,12 @@ import retrofit2.http.*
  */
 interface GithubService {
 
-    @GET("search/users")
+    @GET("search/users?s=followers&type=Users")
     suspend fun getUserList(
-        @Query("q") string: String,
+        @Query("q") query: String,
         @Query("page") page: Int,
-        @Query("per_page") pageSize: Int
+        @Query("per_page") pageSize: Int,
+        @Query("o") order: String,
     ): GetGithubUserResponseModel
 
     companion object {

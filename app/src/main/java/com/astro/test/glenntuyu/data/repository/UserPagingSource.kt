@@ -18,12 +18,13 @@ private const val STARTING_PAGE_INDEX = 1
 class UserPagingSource(
     private val service: GithubService,
     private val query: String,
+    private val order: String,
 ) : PagingSource<Int, GithubUserModel>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GithubUserModel> {
         val page = params.key ?: STARTING_PAGE_INDEX
         val apiQuery = query + IN_QUALIFIER
         return try {
-            val response = service.getUserList(apiQuery, page, NETWORK_PAGE_SIZE)
+            val response = service.getUserList(apiQuery, page, NETWORK_PAGE_SIZE, order)
             val repos = response.items
             val nextKey = if (repos.isEmpty()) {
                 null

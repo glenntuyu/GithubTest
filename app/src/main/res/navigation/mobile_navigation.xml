@@ -8,5 +8,15 @@
         android:name="com.astro.test.glenntuyu.ui.HomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/next_action"
+            app:destination="@id/sort_dest" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sort_dest"
+        android:name="com.astro.test.glenntuyu.ui.sort.SortBottomSheetFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/sort_bottom_sheet_fragment">
     </fragment>
 </navigation>

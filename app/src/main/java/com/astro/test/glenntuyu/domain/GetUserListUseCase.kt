@@ -5,6 +5,7 @@ import com.astro.test.glenntuyu.data.model.GetGithubUserResponseModel
 import com.astro.test.glenntuyu.data.model.GithubUserModel
 import com.astro.test.glenntuyu.data.repository.GithubRepository
 import kotlinx.coroutines.flow.Flow
+import java.nio.ByteOrder
 import javax.inject.Inject
 
 /**
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class GetUserListUseCase @Inject constructor(
     private val githubRepository: GithubRepository,
 ) {
-     fun getUserList(query: String): Flow<PagingData<GithubUserModel>> {
-        return githubRepository.getUserList(query)
+     fun getUserList(query: String, order: String): Flow<PagingData<GithubUserModel>> {
+        return githubRepository.getUserList(query, order)
     }
 }

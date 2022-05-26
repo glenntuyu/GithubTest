@@ -18,10 +18,10 @@ class GithubRepositoryImpl(
         const val NETWORK_PAGE_SIZE = 30
     }
 
-    override suspend fun getUserList(): Flow<PagingData<GithubUserModel>> {
+    override fun getUserList(query: String): Flow<PagingData<GithubUserModel>> {
         return Pager(
             config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
-            pagingSourceFactory = { GithubPagingSource(githubService) }
+            pagingSourceFactory = { UserPagingSource(githubService, query) }
         ).flow
     }
 }

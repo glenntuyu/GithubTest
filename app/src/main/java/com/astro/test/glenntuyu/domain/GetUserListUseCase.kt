@@ -13,7 +13,7 @@ import javax.inject.Inject
 class GetUserListUseCase @Inject constructor(
     private val githubRepository: GithubRepository,
 ) {
-    suspend fun getUserList(): Flow<PagingData<GithubUserModel>> {
-        return githubRepository.getUserList()
+     fun getUserList(query: String): Flow<PagingData<GithubUserModel>> {
+        return githubRepository.getUserList(query)
     }
 }

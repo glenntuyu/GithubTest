@@ -12,8 +12,8 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/main_toolbar"
-            app:title="Title Test"
-            app:subtitle="Subtitle"
+            app:title="@string/toolbar_title"
+            app:subtitle="@string/toolbar_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/teal_200"

@@ -51,8 +51,6 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
-//        observeViewModel()
-//        getUserList()
         viewBinding?.bindState(
             uiState = viewModel.state,
             pagingData = viewModel.userPagingDataFlow,
@@ -135,9 +133,7 @@ class HomeFragment: Fragment() {
             }
         })
         val notLoading = repoAdapter.loadStateFlow
-            // Only emit when REFRESH LoadState for the paging source changes.
             .distinctUntilChangedBy { it.source.refresh }
-            // Only react to cases where REFRESH completes i.e., NotLoading.
             .map { it.source.refresh is LoadState.NotLoading }
 
         val hasNotScrolledForCurrentSearch = uiState
@@ -164,16 +160,11 @@ class HomeFragment: Fragment() {
         lifecycleScope.launch {
             repoAdapter.loadStateFlow.collect { loadState ->
                 val isListEmpty = loadState.refresh is LoadState.NotLoading && repoAdapter.itemCount == 0
-                // show empty list
                 homeEmptyList.isVisible = isListEmpty
-                // Only show the list if refresh succeeds.
                 homeRecyclerView.isVisible = !isListEmpty
-                // Show loading spinner during initial load or refresh.
                 homeProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                // Show the retry state if initial load or refresh fails.
                 homeRetryButton.isVisible = loadState.source.refresh is LoadState.Error
 
-                // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
                 val errorState = loadState.source.append as? LoadState.Error
                     ?: loadState.source.prepend as? LoadState.Error
                     ?: loadState.append as? LoadState.Error

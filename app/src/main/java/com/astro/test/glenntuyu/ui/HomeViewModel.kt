@@ -44,8 +44,6 @@ class HomeViewModel @Inject constructor(
         val queriesScrolled = actionStateFlow
             .filterIsInstance<HomeIntent.Scroll>()
             .distinctUntilChanged()
-            // This is shared to keep the flow "hot" while caching the last query scrolled,
-            // otherwise each flatMapLatest invocation would lose the last query scrolled,
             .shareIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
@@ -67,7 +65,6 @@ class HomeViewModel @Inject constructor(
             HomeState(
                 query = search.query,
                 lastQueryScrolled = scroll.currentQuery,
-                // If the search query matches the scroll query, the user has scrolled
                 hasNotScrolledForCurrentSearch = search.query != scroll.currentQuery
             )
         }
@@ -89,25 +86,4 @@ class HomeViewModel @Inject constructor(
         savedStateHandle[LAST_QUERY_SCROLLED] = state.value.lastQueryScrolled
         super.onCleared()
     }
-
-//    private fun handleIntent() {
-//        viewModelScope.launch {
-//            userPagingDataFlow.consumeAsFlow().collect {
-//                when (it) {
-//                    is HomeIntent.Search -> fetchUser()
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun fetchUser() {
-//        viewModelScope.launch {
-//            _state.value = HomeState.Loading
-//            _state.value = try {
-//                HomeState.Users(getUserListUseCase.getUserList())
-//            } catch (e: Exception) {
-//                HomeState.Error(e.localizedMessage)
-//            }
-//        }
-//    }
 }

@@ -1,7 +1,10 @@
 package com.astro.test.glenntuyu.domain
 
+import androidx.paging.PagingData
 import com.astro.test.glenntuyu.data.model.GetGithubUserResponseModel
+import com.astro.test.glenntuyu.data.model.GithubUserModel
 import com.astro.test.glenntuyu.data.repository.GithubRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -10,7 +13,7 @@ import javax.inject.Inject
 class GetUserListUseCase @Inject constructor(
     private val githubRepository: GithubRepository,
 ) {
-    suspend fun getUserList(): GetGithubUserResponseModel {
-        return githubRepository.getUserList(1, 30)
+    suspend fun getUserList(): Flow<PagingData<GithubUserModel>> {
+        return githubRepository.getUserList()
     }
 }

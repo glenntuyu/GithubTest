@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.astro.test.glenntuyu.R
 import com.astro.test.glenntuyu.data.model.GithubUserModel
 import com.astro.test.glenntuyu.databinding.HomeFragmentBinding
@@ -21,6 +23,7 @@ class HomeFragment: Fragment() {
 
     private var viewBinding: HomeFragmentBinding? = null
     private val viewModel: HomeViewModel by viewModels()
+    private var adapter: HomeAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,20 +39,24 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initRecyclerView()
         observeViewModel()
         viewModel.getUserList()
     }
 
+    private fun initRecyclerView() {
+        viewBinding?.homeRecyclerView?.let { rv ->
+            adapter = HomeAdapter()
+
+            rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            rv.adapter = adapter
+        }
+    }
+
     private fun observeViewModel() {
-        viewModel.userListLiveData.observe(this::submitList)
-    }
-
-    private fun <T> LiveData<T>.observe(observer: Observer<T>) {
-        observe(viewLifecycleOwner, observer)
-    }
-
-    private fun submitList(list: List<GithubUserModel>) {
-        Log.d("HomeFragment", list.size.toString())
+        viewModel.userListLiveData.observe(viewLifecycleOwner) {
+            adapter?.submitData(lifecycle, it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

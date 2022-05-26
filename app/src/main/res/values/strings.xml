@@ -2,5 +2,6 @@
     <string name="app_name">Astro Test</string>
     <string name="toolbar_title">Github User</string>
     <string name="toolbar_subtitle">Astro Test</string>
+    <string name="user">User</string>
     <string name="sort">sort</string>
 </resources>

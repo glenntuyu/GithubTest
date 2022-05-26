@@ -1,10 +1,12 @@
 package com.astro.test.glenntuyu.data.repository
 
-import com.astro.test.glenntuyu.data.model.GetGithubUserResponseModel
+import androidx.paging.PagingData
+import com.astro.test.glenntuyu.data.model.GithubUserModel
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by glenntuyu on 26/05/2022.
  */
 interface GithubRepository {
-    suspend fun getUserList(page: Int, pageSize: Int): GetGithubUserResponseModel
+    suspend fun getUserList(): Flow<PagingData<GithubUserModel>>
 }

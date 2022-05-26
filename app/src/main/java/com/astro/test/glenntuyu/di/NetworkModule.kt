@@ -1,6 +1,6 @@
 package com.astro.test.glenntuyu.di
 
-import com.astro.test.glenntuyu.data.api.GithubApi
+import com.astro.test.glenntuyu.data.api.GithubService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
     @Provides
-    fun provideGithubApi(): GithubApi = GithubApi.create()
+    fun provideGithubApi(): GithubService = GithubService.create()
 }

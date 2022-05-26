@@ -7,10 +7,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.astro.test.glenntuyu.data.model.GithubUserModel
 import com.astro.test.glenntuyu.domain.GetUserListUseCase
+import com.astro.test.glenntuyu.ui.intent.MainIntent
+import com.astro.test.glenntuyu.ui.viewstate.MainState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
 /**
@@ -21,14 +25,32 @@ class HomeViewModel @Inject constructor(
     private val getUserListUseCase: GetUserListUseCase,
 ): ViewModel() {
 
-    private val userListMutableLiveData = MutableLiveData<PagingData<GithubUserModel>>()
-    val userListLiveData: LiveData<PagingData<GithubUserModel>>
-        get() = userListMutableLiveData
+    val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
+    private val _state = MutableStateFlow<MainState>(MainState.Idle)
+    val state: StateFlow<MainState>
+        get() = _state
 
-    fun getUserList() {
-        viewModelScope.launch(Dispatchers.IO) {
-            getUserListUseCase.getUserList().collectLatest {
-                userListMutableLiveData.postValue(it)
+    init {
+        handleIntent()
+    }
+
+    private fun handleIntent() {
+        viewModelScope.launch {
+            userIntent.consumeAsFlow().collect {
+                when (it) {
+                    is MainIntent.FetchUser -> fetchUser()
+                }
+            }
+        }
+    }
+
+    private fun fetchUser() {
+        viewModelScope.launch {
+            _state.value = MainState.Loading
+            _state.value = try {
+                MainState.Users(getUserListUseCase.getUserList())
+            } catch (e: Exception) {
+                MainState.Error(e.localizedMessage)
             }
         }
     }

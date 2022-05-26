@@ -1,6 +1,6 @@
 package com.astro.test.glenntuyu.di
 
-import com.astro.test.glenntuyu.data.api.GithubApi
+import com.astro.test.glenntuyu.data.api.GithubService
 import com.astro.test.glenntuyu.data.repository.GithubRepository
 import com.astro.test.glenntuyu.data.repository.GithubRepositoryImpl
 import dagger.Module
@@ -17,8 +17,8 @@ class GithubRepositoryModule {
 
     @Provides
     internal fun provideRepository(
-        githubApi: GithubApi,
+        githubService: GithubService,
     ): GithubRepository {
-        return GithubRepositoryImpl(githubApi)
+        return GithubRepositoryImpl(githubService)
     }
 }

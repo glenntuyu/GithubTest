@@ -19,7 +19,7 @@ class UserViewHolder(private val binding: UserViewHolderBinding): RecyclerView.V
             .load(data.avatarUrl)
             .transform(RoundedCorners(6))
             .into(binding.userIcon)
-        binding.userName.setTextAndCheckShow(data.name)
+        binding.userName.setTextAndCheckShow(data.login)
     }
 
     companion object {

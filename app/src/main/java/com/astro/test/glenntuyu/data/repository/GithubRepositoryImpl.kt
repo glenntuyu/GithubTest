@@ -3,7 +3,7 @@ package com.astro.test.glenntuyu.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.astro.test.glenntuyu.data.api.GithubApi
+import com.astro.test.glenntuyu.data.api.GithubService
 import com.astro.test.glenntuyu.data.model.GithubUserModel
 import kotlinx.coroutines.flow.Flow
 
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
  * Created by glenntuyu on 26/05/2022.
  */
 class GithubRepositoryImpl(
-    private val githubApi: GithubApi
+    private val githubService: GithubService
 ): GithubRepository {
 
     companion object {
@@ -21,7 +21,7 @@ class GithubRepositoryImpl(
     override suspend fun getUserList(): Flow<PagingData<GithubUserModel>> {
         return Pager(
             config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
-            pagingSourceFactory = { GithubPagingSource(githubApi) }
+            pagingSourceFactory = { GithubPagingSource(githubService) }
         ).flow
     }
 }

@@ -1,19 +1,23 @@
 package com.astro.test.glenntuyu.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.astro.test.glenntuyu.R
 import com.astro.test.glenntuyu.data.model.GithubUserModel
 import com.astro.test.glenntuyu.databinding.HomeFragmentBinding
+import com.astro.test.glenntuyu.ui.intent.MainIntent
+import com.astro.test.glenntuyu.ui.viewstate.MainState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * Created by glenntuyu on 26/05/2022.
@@ -41,7 +45,7 @@ class HomeFragment: Fragment() {
 
         initRecyclerView()
         observeViewModel()
-        viewModel.getUserList()
+        getUserList()
     }
 
     private fun initRecyclerView() {
@@ -54,8 +58,42 @@ class HomeFragment: Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.userListLiveData.observe(viewLifecycleOwner) {
-            adapter?.submitData(lifecycle, it)
+        lifecycleScope.launch {
+            viewModel.state.collect {
+                when (it) {
+                    is MainState.Idle -> {
+
+                    }
+                    is MainState.Loading -> {
+//                        buttonFetchUser.visibility = View.GONE
+//                        progressBar.visibility = View.VISIBLE
+                    }
+
+                    is MainState.Users -> {
+//                        progressBar.visibility = View.GONE
+//                        buttonFetchUser.visibility = View.GONE
+                        renderList(it.user)
+                    }
+                    is MainState.Error -> {
+//                        progressBar.visibility = View.GONE
+//                        buttonFetchUser.visibility = View.VISIBLE
+//                        Toast.makeText(this@MainActivity, it.error, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun renderList(users: Flow<PagingData<GithubUserModel>>) {
+        users.collectLatest { list ->
+            viewBinding?.homeRecyclerView?.visibility = View.VISIBLE
+            adapter?.submitData(list)
+        }
+    }
+
+    private fun getUserList() {
+        lifecycleScope.launch {
+            viewModel.userIntent.send(MainIntent.FetchUser)
         }
     }
 

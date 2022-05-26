@@ -18,6 +18,7 @@ class UserViewHolder(private val binding: UserViewHolderBinding): RecyclerView.V
         Glide.with(itemView.context)
             .load(data.avatarUrl)
             .transform(RoundedCorners(6))
+            .placeholder(R.drawable.ic_account)
             .into(binding.userIcon)
         binding.userName.setTextAndCheckShow(data.login)
     }

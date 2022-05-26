@@ -12,7 +12,7 @@ import retrofit2.http.*
  */
 interface GithubService {
 
-    @GET("search/users?")
+    @GET("search/users")
     suspend fun getUserList(
         @Query("q") string: String,
         @Query("page") page: Int,

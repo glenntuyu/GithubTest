@@ -12,6 +12,7 @@
             android:layout_height="32dp"
             android:layout_marginStart="8dp"
             android:layout_marginVertical="12dp"
+            app:srcCompat="@drawable/ic_account"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

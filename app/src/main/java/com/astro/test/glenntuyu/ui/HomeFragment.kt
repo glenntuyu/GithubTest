@@ -78,22 +78,20 @@ class HomeFragment: Fragment() {
         val repoAdapter = HomeAdapter()
         homeRecyclerView.adapter = repoAdapter.withLoadStateHeaderAndFooter(
             header = LoadStateAdapter { repoAdapter.retry() },
-            footer = LoadStateAdapter { repoAdapter.retry() }
+            footer = LoadStateAdapter { repoAdapter.retry() },
         )
         bindSearch(
-            uiState = uiState,
-            onQueryChanged = uiActions
+            onQueryChanged = uiActions,
         )
         bindList(
             repoAdapter = repoAdapter,
             uiState = uiState,
             pagingData = pagingData,
-            onScrollChanged = uiActions
+            onScrollChanged = uiActions,
         )
     }
 
     private fun HomeFragmentBinding.bindSearch(
-        uiState: StateFlow<HomeState>,
         onQueryChanged: (HomeIntent.Search) -> Unit
     ) {
         homeEditText.addTextChangedListener(object: TextWatcher {

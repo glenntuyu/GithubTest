@@ -5,8 +5,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.astro.test.glenntuyu.R
 import com.astro.test.glenntuyu.databinding.ActivityMainBinding
@@ -49,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     private fun setCurrentQuery() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment)
         (navHostFragment?.childFragmentManager?.fragments?.get(0) as? HomeFragment)?.putQueryToArguments()
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.main_fragment).navigateUp(appBarConfiguration)
     }
 
     override fun onDestroy() {

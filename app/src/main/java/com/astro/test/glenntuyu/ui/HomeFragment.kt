@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
  * Created by glenntuyu on 26/05/2022.
  */
 @AndroidEntryPoint
-class HomeFragment: Fragment() {
+class HomeFragment: Fragment(), UserListListener {
 
     private var viewBinding: HomeFragmentBinding? = null
     private val viewModel: HomeViewModel by viewModels()
@@ -54,7 +54,6 @@ class HomeFragment: Fragment() {
         handleArgs()
         toastSortOrder()
         initEditText()
-        initRecyclerView()
         viewBinding?.bindState(
             uiState = viewModel.state,
             pagingData = viewModel.userPagingDataFlow,
@@ -77,33 +76,21 @@ class HomeFragment: Fragment() {
         viewBinding?.homeEditText?.setText(viewModel.getInitialQuery())
     }
 
-    private fun initRecyclerView() {
-        viewBinding?.homeRecyclerView?.let { rv ->
-            adapter = HomeAdapter()
-
-            rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            rv.adapter = adapter
-
-            val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-            rv.addItemDecoration(decoration)
-        }
-    }
-
     private fun HomeFragmentBinding.bindState(
         uiState: StateFlow<HomeState>,
         pagingData: Flow<PagingData<GithubUserModel>>,
         uiActions: (HomeIntent) -> Unit
     ) {
-        val repoAdapter = HomeAdapter()
-        homeRecyclerView.adapter = repoAdapter.withLoadStateHeaderAndFooter(
-            header = LoadStateAdapter { repoAdapter.retry() },
-            footer = LoadStateAdapter { repoAdapter.retry() },
+        val homeAdapter = HomeAdapter(this@HomeFragment)
+        homeRecyclerView.adapter = homeAdapter.withLoadStateHeaderAndFooter(
+            header = LoadStateAdapter { homeAdapter.retry() },
+            footer = LoadStateAdapter { homeAdapter.retry() },
         )
         bindSearch(
             onQueryChanged = uiActions,
         )
         bindList(
-            repoAdapter = repoAdapter,
+            adapter = homeAdapter,
             uiState = uiState,
             pagingData = pagingData,
             onScrollChanged = uiActions,
@@ -139,18 +126,18 @@ class HomeFragment: Fragment() {
     }
 
     private fun HomeFragmentBinding.bindList(
-        repoAdapter: HomeAdapter,
+        adapter: HomeAdapter,
         uiState: StateFlow<HomeState>,
         pagingData: Flow<PagingData<GithubUserModel>>,
         onScrollChanged: (HomeIntent.Scroll) -> Unit
     ) {
-        homeRetryButton.setOnClickListener { repoAdapter.retry() }
+        homeRetryButton.setOnClickListener { adapter.retry() }
         homeRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy != 0) onScrollChanged(HomeIntent.Scroll(currentQuery = uiState.value.query))
             }
         })
-        val notLoading = repoAdapter.loadStateFlow
+        val notLoading = adapter.loadStateFlow
             .distinctUntilChangedBy { it.source.refresh }
             .map { it.source.refresh is LoadState.NotLoading }
 
@@ -166,7 +153,7 @@ class HomeFragment: Fragment() {
             .distinctUntilChanged()
 
         lifecycleScope.launch {
-            pagingData.collectLatest(repoAdapter::submitData)
+            pagingData.collectLatest(adapter::submitData)
         }
 
         lifecycleScope.launch {
@@ -176,8 +163,8 @@ class HomeFragment: Fragment() {
         }
 
         lifecycleScope.launch {
-            repoAdapter.loadStateFlow.collect { loadState ->
-                val isListEmpty = loadState.refresh is LoadState.NotLoading && repoAdapter.itemCount == 0
+            adapter.loadStateFlow.collect { loadState ->
+                val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 homeEmptyList.isVisible = isListEmpty
                 homeRecyclerView.isVisible = !isListEmpty
                 homeProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
@@ -210,5 +197,9 @@ class HomeFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewBinding = null
+    }
+
+    override fun onUserItemClicked(userId: Long) {
+
     }
 }

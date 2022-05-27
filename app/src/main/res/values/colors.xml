@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="N700_96">#F531353B</color>
     <color name="N700_68">#AD31353B</color>
+    <color name="gray_background">#d3d3d3</color>
     <color name="NN0">#1D2025</color>
 </resources>

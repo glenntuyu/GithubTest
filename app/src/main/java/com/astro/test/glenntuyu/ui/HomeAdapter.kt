@@ -12,13 +12,13 @@ import com.astro.test.glenntuyu.databinding.UserViewHolderBinding
 /**
  * Created by glenntuyu on 26/05/2022.
  */
-class HomeAdapter(): PagingDataAdapter<GithubUserModel, RecyclerView.ViewHolder>(COMPARATOR) {
+class HomeAdapter(private val userListListener: UserListListener): PagingDataAdapter<GithubUserModel, RecyclerView.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = DataBindingUtil.inflate<UserViewHolderBinding>(
             LayoutInflater.from(parent.context), UserViewHolder.LAYOUT, parent, false
         )
-        return UserViewHolder.create(binding)
+        return UserViewHolder.create(binding, userListListener)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

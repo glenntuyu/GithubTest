@@ -4,6 +4,7 @@
     <string name="toolbar_subtitle">Astro Test</string>
     <string name="search_hint">Search User</string>
     <string name="user">User</string>
+    <string name="user_url">https//github.com/user</string>
     <string name="sort_order">sort_order</string>
     <string name="retry">Retry</string>
     <string name="no_results">No results</string>

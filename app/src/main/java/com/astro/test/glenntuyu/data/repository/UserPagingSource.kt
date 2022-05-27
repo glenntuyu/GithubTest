@@ -25,14 +25,14 @@ class UserPagingSource(
         val apiQuery = query + IN_QUALIFIER
         return try {
             val response = service.getUserList(apiQuery, page, NETWORK_PAGE_SIZE, order)
-            val repos = response.items
-            val nextKey = if (repos.isEmpty()) {
+            val list = response.items
+            val nextKey = if (list.isEmpty()) {
                 null
             } else {
                 page + (params.loadSize / NETWORK_PAGE_SIZE)
             }
             LoadResult.Page(
-                data = repos,
+                data = list,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,
                 nextKey = nextKey
             )

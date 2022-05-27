@@ -3,8 +3,8 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/sort_dest"
+        android:id="@+id/sort_order_dest"
         android:icon="@drawable/ic_sort"
-        android:title="@string/sort"
+        android:title="@string/sort_order"
         app:showAsAction="ifRoom" />
 </menu>

@@ -5,19 +5,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
 import com.astro.test.glenntuyu.data.model.GithubUserModel
 import com.astro.test.glenntuyu.domain.GetUserListUseCase
 import com.astro.test.glenntuyu.ui.intent.HomeIntent
 import com.astro.test.glenntuyu.ui.viewstate.HomeState
+import com.astro.test.glenntuyu.util.Constant.ASCENDING
 import com.astro.test.glenntuyu.util.Constant.DEFAULT_QUERY
-import com.astro.test.glenntuyu.util.Constant.DESCENDING
 import com.astro.test.glenntuyu.util.Constant.LAST_QUERY_SCROLLED
 import com.astro.test.glenntuyu.util.Constant.LAST_SEARCH_QUERY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-
 import javax.inject.Inject
 
 /**
@@ -30,18 +28,18 @@ class HomeViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
+    private var sortOrder = ASCENDING
+    private var initialQuery = savedStateHandle.get(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
     val state: StateFlow<HomeState>
     val userPagingDataFlow: Flow<PagingData<GithubUserModel>>
     val accept: (HomeIntent) -> Unit
 
     init {
-        val initialQuery: String = savedStateHandle.get(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
         val lastQueryScrolled: String = savedStateHandle.get(LAST_QUERY_SCROLLED) ?: DEFAULT_QUERY
         val actionStateFlow = MutableSharedFlow<HomeIntent>()
         val searches = actionStateFlow
             .filterIsInstance<HomeIntent.Search>()
             .distinctUntilChanged()
-            .onStart { emit(HomeIntent.Search(query = initialQuery)) }
         val queriesScrolled = actionStateFlow
             .filterIsInstance<HomeIntent.Scroll>()
             .distinctUntilChanged()
@@ -54,7 +52,7 @@ class HomeViewModel @Inject constructor(
 
         userPagingDataFlow = searches
             .flatMapLatest {
-                getUserListUseCase.getUserList(it.query, DESCENDING)
+                getUserListUseCase.getUserList(it.query, sortOrder)
             }
             .cachedIn(viewModelScope)
 
@@ -82,9 +80,37 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun setSortOrder(sortOrder: String) {
+        this.sortOrder = sortOrder
+    }
+
+    fun getSortOrder(): String {
+        return sortOrder
+    }
+
+    fun setQuery(query: String) {
+        initialQuery = query
+    }
+
+    fun getInitialQuery(): String {
+        return initialQuery
+    }
+
+    fun getQuery(): String {
+        return state.value.query
+    }
+
+    fun startSearch() {
+        accept.invoke(HomeIntent.Search(query = initialQuery))
+    }
+
     override fun onCleared() {
+        setLastSearchQuery()
+        super.onCleared()
+    }
+
+    private fun setLastSearchQuery() {
         savedStateHandle[LAST_SEARCH_QUERY] = state.value.query
         savedStateHandle[LAST_QUERY_SCROLLED] = state.value.lastQueryScrolled
-        super.onCleared()
     }
 }

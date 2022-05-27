@@ -7,7 +7,7 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sort_bottom_sheet_recycler_view"
+            android:id="@+id/sort_order_bottom_sheet_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

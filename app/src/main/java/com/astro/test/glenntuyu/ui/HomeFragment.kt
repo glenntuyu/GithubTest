@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -50,12 +51,30 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        handleArgs()
+        toastSortOrder()
+        initEditText()
         initRecyclerView()
         viewBinding?.bindState(
             uiState = viewModel.state,
             pagingData = viewModel.userPagingDataFlow,
             uiActions = viewModel.accept
         )
+        viewModel.startSearch()
+    }
+
+    private fun handleArgs() {
+        val safeArgs: HomeFragmentArgs by navArgs()
+        viewModel.setSortOrder(safeArgs.sortOrder)
+        viewModel.setQuery(safeArgs.query)
+    }
+
+    private fun toastSortOrder() {
+        Toast.makeText(context, "Sort with order ${viewModel.getSortOrder()}", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun initEditText() {
+        viewBinding?.homeEditText?.setText(viewModel.getInitialQuery())
     }
 
     private fun initRecyclerView() {
@@ -112,8 +131,9 @@ class HomeFragment: Fragment() {
     private fun HomeFragmentBinding.updateSearchListFromInput(onQueryChanged: (HomeIntent.Search) -> Unit) {
         TimerUtil.scheduleCanceler(runnable = {
             homeEditText.text.trim().let {
+                val query = it.toString()
                 homeRecyclerView.smoothScrollToPosition(0)
-                onQueryChanged(HomeIntent.Search(query = it.toString()))
+                onQueryChanged(HomeIntent.Search(query = query))
             }
         })
     }
@@ -180,6 +200,11 @@ class HomeFragment: Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    fun putQueryToArguments() {
+        val action = HomeFragmentDirections.nextAction(viewModel.getQuery())
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

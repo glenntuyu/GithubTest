@@ -8,15 +8,34 @@
         android:name="com.astro.test.glenntuyu.ui.HomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/home_fragment">
+        <argument
+            android:name="sortOrder"
+            app:argType="string"
+            android:defaultValue="asc"/>
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue="qwe"/>
+
         <action
             android:id="@+id/next_action"
-            app:destination="@id/sort_dest" />
+            app:destination="@+id/sort_order_dest">
+        </action>
     </fragment>
 
-    <fragment
-        android:id="@+id/sort_dest"
-        android:name="com.astro.test.glenntuyu.ui.sort.SortBottomSheetFragment"
+    <dialog
+        android:id="@+id/sort_order_dest"
+        android:name="com.astro.test.glenntuyu.ui.sortorder.SortOrderBottomSheetFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/sort_bottom_sheet_fragment">
-    </fragment>
+        tools:layout="@layout/sort_order_bottom_sheet_fragment">
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue="qwe"/>
+
+        <action
+            android:id="@+id/next_action"
+            app:destination="@+id/home_dest">
+        </action>
+    </dialog>
 </navigation>

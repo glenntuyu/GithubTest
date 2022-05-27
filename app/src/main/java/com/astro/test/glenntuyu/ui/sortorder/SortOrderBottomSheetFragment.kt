@@ -1,15 +1,16 @@
-package com.astro.test.glenntuyu.ui.sort
+package com.astro.test.glenntuyu.ui.sortorder
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.astro.test.glenntuyu.R
-import com.astro.test.glenntuyu.databinding.SortBottomSheetFragmentBinding
+import com.astro.test.glenntuyu.databinding.SortOrderBottomSheetFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,22 +18,11 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by glenntuyu on 26/05/2022.
  */
 @AndroidEntryPoint
-class SortBottomSheetFragment: BottomSheetDialogFragment(), SortBottomSheetListener {
-    companion object {
-        const val SORT_BOTTOM_SHEET_TAG = "SORT_BOTTOM_SHEET_TAG"
-    }
+class SortOrderBottomSheetFragment: BottomSheetDialogFragment(), SortOrderBottomSheetListener {
 
-    private var viewBinding: SortBottomSheetFragmentBinding? = null
-    private val viewModel: SortBottomSheetViewModel by viewModels()
-    private var sortCallback: Callback? = null
+    private var viewBinding: SortOrderBottomSheetFragmentBinding? = null
+    private val viewModel: SortOrderBottomSheetViewModel by viewModels()
 
-    fun show(
-        fragmentManager: FragmentManager,
-        callback: Callback,
-    ) {
-        this.sortCallback = callback
-        show(fragmentManager, SORT_BOTTOM_SHEET_TAG)
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogStyle);
@@ -43,36 +33,38 @@ class SortBottomSheetFragment: BottomSheetDialogFragment(), SortBottomSheetListe
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = DataBindingUtil.inflate(inflater, R.layout.sort_bottom_sheet_fragment, container, false)
+        viewBinding = DataBindingUtil.inflate(inflater, R.layout.sort_order_bottom_sheet_fragment, container, false)
         return viewBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        handleArgs()
         initRecyclerView()
         observeViewModel()
     }
 
+    private fun handleArgs() {
+        val safeArgs: SortOrderBottomSheetFragmentArgs by navArgs()
+        viewModel.setQuery(safeArgs.query)
+    }
+
     private fun initRecyclerView() {
-        viewBinding?.sortBottomSheetRecyclerView?.let { rv ->
+        viewBinding?.sortOrderBottomSheetRecyclerView?.let { rv ->
             rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            rv.adapter = SortBottomSheetAdapter(this)
+            rv.adapter = SortOrderBottomSheetAdapter(this)
         }
     }
 
     private fun observeViewModel() {
-        viewModel.sortLiveData.observe(this) {
-            sortCallback?.getSortType(it)
-            this.dismiss()
+        viewModel.sortLiveData.observe(this) { type ->
+            val action = SortOrderBottomSheetFragmentDirections.nextAction(type, viewModel.getQuery())
+            findNavController().navigate(action)
         }
     }
 
     override fun onItemClick(text: String) {
-        viewModel.getSortType(text)
-    }
-
-    interface Callback {
-        fun getSortType(type: String)
+        viewModel.getSortOrderType(text)
     }
 }

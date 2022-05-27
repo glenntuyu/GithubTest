@@ -1,11 +1,14 @@
 package com.astro.test.glenntuyu.data.api
 
 import com.astro.test.glenntuyu.data.model.GetGithubUserResponseModel
+import com.astro.test.glenntuyu.data.model.GithubUserModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Created by glenntuyu on 26/05/2022.
@@ -39,4 +42,9 @@ interface GithubService {
                 .create(GithubService::class.java)
         }
     }
+
+    @GET("users/{username}")
+    suspend fun getUserDetail(
+        @Path("username") username: String
+    ): GithubUserModel
 }

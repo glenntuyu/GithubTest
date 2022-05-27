@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.userdetail.UserDetailFragment">
+    <data>
+        <import type="android.view.View"/>
+        <import type="android.text.TextUtils"/>
+        <variable name="dataView" type="com.astro.test.glenntuyu.ui.userdetail.UserDetailDataView" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/normal_margin"
+        app:shouldShowView="@{dataView.dataIsNotEmpty()}">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/avatar_size_large"
+            android:layout_height="@dimen/avatar_size_large"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/normal_margin"
+            app:srcCompat="@drawable/ic_account"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:icon="@{dataView.avatarUrl}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Header_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="@string/label_user_name"
+            android:layout_marginTop="@dimen/normal_margin"
+            app:shouldShowView="@{!TextUtils.isEmpty(dataView.login)}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Body_1"
+            android:background="@drawable/text_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/small_margin"
+            android:padding="@dimen/small_margin"
+            app:showTextIfNotEmpty="@{dataView.login}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Header_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="@string/label_user_url"
+            android:layout_marginTop="@dimen/normal_margin"
+            app:shouldShowView="@{!TextUtils.isEmpty(dataView.htmlUrl)}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Body_1"
+            android:background="@drawable/text_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/small_margin"
+            android:padding="@dimen/small_margin"
+            app:showTextIfNotEmpty="@{dataView.htmlUrl}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Header_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="@string/label_user_followers"
+            android:layout_marginTop="@dimen/normal_margin"
+            app:shouldShowView="@{!TextUtils.isEmpty(dataView.followers)}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Body_1"
+            android:background="@drawable/text_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/small_margin"
+            android:padding="@dimen/small_margin"
+            app:showTextIfNotEmpty="@{dataView.followers}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Header_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="@string/label_user_following"
+            android:layout_marginTop="@dimen/normal_margin"
+            app:shouldShowView="@{!TextUtils.isEmpty(dataView.following)}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Body_1"
+            android:background="@drawable/text_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/small_margin"
+            android:padding="@dimen/small_margin"
+            app:showTextIfNotEmpty="@{dataView.following}"/>
+    </LinearLayout>
+
+</layout>

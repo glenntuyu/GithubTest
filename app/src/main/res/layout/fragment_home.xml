@@ -34,7 +34,7 @@
             android:id="@+id/home_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingVertical="10dp"
+            android:paddingTop="10dp"
             app:layoutManager="LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/home_input_layout"
             app:layout_constraintBottom_toBottomOf="parent"/>

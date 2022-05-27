@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.astro.test.glenntuyu.R
-import com.astro.test.glenntuyu.databinding.SortOrderBottomSheetFragmentBinding
+import com.astro.test.glenntuyu.databinding.FragmentSortOrderBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SortOrderBottomSheetFragment: BottomSheetDialogFragment(), SortOrderBottomSheetListener {
 
-    private var viewBinding: SortOrderBottomSheetFragmentBinding? = null
+    private var viewBinding: FragmentSortOrderBottomSheetBinding? = null
     private val viewModel: SortOrderBottomSheetViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class SortOrderBottomSheetFragment: BottomSheetDialogFragment(), SortOrderBottom
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = DataBindingUtil.inflate(inflater, R.layout.sort_order_bottom_sheet_fragment, container, false)
+        viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_sort_order_bottom_sheet, container, false)
         return viewBinding?.root
     }
 

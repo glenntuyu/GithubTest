@@ -39,7 +39,7 @@ class UserViewHolder(private val binding: UserViewHolderBinding, private val use
 
     private fun bindListener(data: GithubUserModel) {
         binding.userItemLayout.setOnClickListener {
-            userListListener.onUserItemClicked(data.id)
+            userListListener.onUserItemClicked(data.login)
         }
     }
 

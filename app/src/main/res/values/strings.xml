@@ -8,4 +8,8 @@
     <string name="sort_order">sort_order</string>
     <string name="retry">Retry</string>
     <string name="no_results">No results</string>
+    <string name="label_user_name">Name:</string>
+    <string name="label_user_url">Url:</string>
+    <string name="label_user_followers">Followers:</string>
+    <string name="label_user_following">Following:</string>
 </resources>

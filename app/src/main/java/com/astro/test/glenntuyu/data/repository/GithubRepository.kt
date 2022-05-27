@@ -9,4 +9,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface GithubRepository {
     fun getUserList(query: String, order: String): Flow<PagingData<GithubUserModel>>
+    suspend fun getUserDetail(username: String): GithubUserModel
 }

@@ -3,8 +3,10 @@ package com.astro.test.glenntuyu.data.model
 import com.google.gson.annotations.SerializedName
 
 data class GithubUserModel(
-    @SerializedName("id") var id: Long,
-    @SerializedName("login") var login: String,
-    @SerializedName("avatar_url") var avatarUrl: String,
-    @SerializedName("html_url") var htmlUrl: String,
+    @SerializedName("id") val id: Long = -1,
+    @SerializedName("login") val login: String = "",
+    @SerializedName("avatar_url") val avatarUrl: String = "",
+    @SerializedName("html_url") val htmlUrl: String = "",
+    @SerializedName("followers") var followers: Int,
+    @SerializedName("following") var following: Int,
 )

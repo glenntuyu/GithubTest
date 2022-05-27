@@ -24,4 +24,8 @@ class GithubRepositoryImpl(
             pagingSourceFactory = { UserPagingSource(githubService, query, order) }
         ).flow
     }
+
+    override suspend fun getUserDetail(username: String): GithubUserModel {
+        return githubService.getUserDetail(username)
+    }
 }

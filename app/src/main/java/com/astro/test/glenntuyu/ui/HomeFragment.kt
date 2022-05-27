@@ -14,12 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.astro.test.glenntuyu.R
 import com.astro.test.glenntuyu.data.model.GithubUserModel
-import com.astro.test.glenntuyu.databinding.HomeFragmentBinding
+import com.astro.test.glenntuyu.databinding.FragmentHomeBinding
 import com.astro.test.glenntuyu.ui.intent.HomeIntent
 import com.astro.test.glenntuyu.ui.viewstate.HomeState
 import com.astro.test.glenntuyu.util.TimerUtil
@@ -33,9 +31,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment: Fragment(), UserListListener {
 
-    private var viewBinding: HomeFragmentBinding? = null
+    private var viewBinding: FragmentHomeBinding? = null
     private val viewModel: HomeViewModel by viewModels()
-    private var adapter: HomeAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +40,7 @@ class HomeFragment: Fragment(), UserListListener {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        viewBinding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
+        viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         return viewBinding?.root
     }
@@ -76,7 +73,7 @@ class HomeFragment: Fragment(), UserListListener {
         viewBinding?.homeEditText?.setText(viewModel.getInitialQuery())
     }
 
-    private fun HomeFragmentBinding.bindState(
+    private fun FragmentHomeBinding.bindState(
         uiState: StateFlow<HomeState>,
         pagingData: Flow<PagingData<GithubUserModel>>,
         uiActions: (HomeIntent) -> Unit
@@ -97,7 +94,7 @@ class HomeFragment: Fragment(), UserListListener {
         )
     }
 
-    private fun HomeFragmentBinding.bindSearch(
+    private fun FragmentHomeBinding.bindSearch(
         onQueryChanged: (HomeIntent.Search) -> Unit
     ) {
         homeEditText.addTextChangedListener(object: TextWatcher {
@@ -115,7 +112,7 @@ class HomeFragment: Fragment(), UserListListener {
         })
     }
 
-    private fun HomeFragmentBinding.updateSearchListFromInput(onQueryChanged: (HomeIntent.Search) -> Unit) {
+    private fun FragmentHomeBinding.updateSearchListFromInput(onQueryChanged: (HomeIntent.Search) -> Unit) {
         TimerUtil.scheduleCanceler(runnable = {
             homeEditText.text.trim().let {
                 val query = it.toString()
@@ -125,7 +122,7 @@ class HomeFragment: Fragment(), UserListListener {
         })
     }
 
-    private fun HomeFragmentBinding.bindList(
+    private fun FragmentHomeBinding.bindList(
         adapter: HomeAdapter,
         uiState: StateFlow<HomeState>,
         pagingData: Flow<PagingData<GithubUserModel>>,
@@ -178,7 +175,7 @@ class HomeFragment: Fragment(), UserListListener {
                     Toast.makeText(
                         context,
                         "\uD83D\uDE28 Wooops ${it.error}",
-                        Toast.LENGTH_LONG
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
             }
@@ -190,7 +187,7 @@ class HomeFragment: Fragment(), UserListListener {
     }
 
     fun putQueryToArguments() {
-        val action = HomeFragmentDirections.nextAction(viewModel.getQuery())
+        val action = HomeFragmentDirections.moveToSortOrder(viewModel.getQuery())
         findNavController().navigate(action)
     }
 
@@ -199,7 +196,8 @@ class HomeFragment: Fragment(), UserListListener {
         viewBinding = null
     }
 
-    override fun onUserItemClicked(userId: Long) {
-
+    override fun onUserItemClicked(username: String) {
+        val action = HomeFragmentDirections.moveToUserDetail(username)
+        findNavController().navigate(action)
     }
 }

@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setCurrentQuery() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment)
-        (navHostFragment?.childFragmentManager?.fragments?.get(0) as? HomeFragment)?.putQueryToArguments()
+        (navHostFragment?.childFragmentManager?.fragments?.get(0) as? HomeFragment)?.redirectToSortOrderBottomSheetFragment()
     }
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.main_fragment).navigateUp(appBarConfiguration)

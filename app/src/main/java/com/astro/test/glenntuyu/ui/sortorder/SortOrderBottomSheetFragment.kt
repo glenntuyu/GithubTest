@@ -49,12 +49,16 @@ class SortOrderBottomSheetFragment: BottomSheetDialogFragment(), SortOrderBottom
     private fun handleArgs() {
         val safeArgs: SortOrderBottomSheetFragmentArgs by navArgs()
         viewModel.setQuery(safeArgs.query)
+        viewModel.setCurrentSortOrder(safeArgs.currentSortOrder)
     }
 
     private fun initRecyclerView() {
         viewBinding?.sortOrderBottomSheetRecyclerView?.let { rv ->
+            val adapter = SortOrderBottomSheetAdapter(this)
+            adapter.setCurrentSortOrder(viewModel.getCurrentSortOrder())
+
             rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            rv.adapter = SortOrderBottomSheetAdapter(this)
+            rv.adapter = adapter
 
             val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
             rv.addItemDecoration(decoration)

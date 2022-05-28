@@ -189,8 +189,8 @@ class HomeFragment: Fragment(), UserListListener {
         viewModel.startSearch()
     }
 
-    fun putQueryToArguments() {
-        val action = HomeFragmentDirections.moveToSortOrder(viewModel.getQuery())
+    fun redirectToSortOrderBottomSheetFragment() {
+        val action = HomeFragmentDirections.moveToSortOrder(viewModel.getQuery(), viewModel.getSortOrder())
         findNavController().navigate(action)
     }
 

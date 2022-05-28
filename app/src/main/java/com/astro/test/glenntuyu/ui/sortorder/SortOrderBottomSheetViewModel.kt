@@ -18,6 +18,7 @@ import javax.inject.Inject
 class SortOrderBottomSheetViewModel @Inject constructor(): ViewModel() {
 
     private var query = DEFAULT_QUERY
+    private var currentSortOrder = ""
 
     private val sortMutableLiveData = MutableLiveData<String>()
     val sortLiveData: LiveData<String>
@@ -37,5 +38,13 @@ class SortOrderBottomSheetViewModel @Inject constructor(): ViewModel() {
 
     fun getQuery(): String {
         return query
+    }
+
+    fun setCurrentSortOrder(sortOrder: String) {
+        this.currentSortOrder = sortOrder
+    }
+
+    fun getCurrentSortOrder(): String {
+        return currentSortOrder
     }
 }

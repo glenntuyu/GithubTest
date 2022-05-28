@@ -50,6 +50,10 @@
             android:name="query"
             app:argType="string"
             android:defaultValue="qwe"/>
+        <argument
+            android:name="currentSortOrder"
+            app:argType="string"
+            android:defaultValue="asc"/>
 
         <action
             android:id="@+id/next_action"

@@ -12,13 +12,19 @@ class SortOrderBottomSheetAdapter(
     private val sortOrderBottomSheetListener: SortOrderBottomSheetListener,
 ) : RecyclerView.Adapter<SortOrderItemViewHolder>() {
 
+    private var currentSortOrder: String = ""
+
     private val sortList = listOf(
         FEWEST_FOLLOWERS,
         MOST_FOLLOWERS,
     )
 
+    fun setCurrentSortOrder(sortOrder: String) {
+        this.currentSortOrder = sortOrder
+    }
+
     override fun onBindViewHolder(holder: SortOrderItemViewHolder, position: Int) {
-        holder.bind(sortList[position])
+        holder.bind(sortList[position], currentSortOrder)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SortOrderItemViewHolder {

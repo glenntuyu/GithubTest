@@ -1,4 +1,4 @@
-package com.astro.test.glenntuyu.ui
+package com.astro.test.glenntuyu.ui.home
 
 import android.os.Bundle
 import android.text.Editable
@@ -19,7 +19,7 @@ import com.astro.test.glenntuyu.R
 import com.astro.test.glenntuyu.data.model.GithubUserModel
 import com.astro.test.glenntuyu.databinding.FragmentHomeBinding
 import com.astro.test.glenntuyu.ui.intent.HomeIntent
-import com.astro.test.glenntuyu.ui.viewstate.HomeState
+import com.astro.test.glenntuyu.ui.state.HomeState
 import com.astro.test.glenntuyu.util.TimerUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*

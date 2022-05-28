@@ -1,4 +1,4 @@
-package com.astro.test.glenntuyu.ui
+package com.astro.test.glenntuyu.ui.home
 
 /**
  * Created by glenntuyu on 27/05/2022.

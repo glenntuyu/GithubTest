@@ -1,4 +1,4 @@
-package com.astro.test.glenntuyu.ui
+package com.astro.test.glenntuyu.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

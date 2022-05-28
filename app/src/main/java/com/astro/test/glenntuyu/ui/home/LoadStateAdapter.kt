@@ -1,4 +1,4 @@
-package com.astro.test.glenntuyu.ui
+package com.astro.test.glenntuyu.ui.home
 
 import android.view.ViewGroup
 import androidx.paging.LoadState

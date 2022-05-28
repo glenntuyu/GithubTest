@@ -1,4 +1,4 @@
-package com.astro.test.glenntuyu.ui
+package com.astro.test.glenntuyu.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,15 +7,17 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.astro.test.glenntuyu.data.model.GithubUserModel
-import com.astro.test.glenntuyu.databinding.UserViewHolderBinding
+import com.astro.test.glenntuyu.databinding.UserItemViewHolderBinding
 
 /**
  * Created by glenntuyu on 26/05/2022.
  */
-class HomeAdapter(private val userListListener: UserListListener): PagingDataAdapter<GithubUserModel, RecyclerView.ViewHolder>(COMPARATOR) {
+class HomeAdapter(private val userListListener: UserListListener): PagingDataAdapter<GithubUserModel, RecyclerView.ViewHolder>(
+    COMPARATOR
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val binding = DataBindingUtil.inflate<UserViewHolderBinding>(
+        val binding = DataBindingUtil.inflate<UserItemViewHolderBinding>(
             LayoutInflater.from(parent.context), UserViewHolder.LAYOUT, parent, false
         )
         return UserViewHolder.create(binding, userListListener)

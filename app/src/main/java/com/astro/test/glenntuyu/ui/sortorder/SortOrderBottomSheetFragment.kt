@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.astro.test.glenntuyu.R
 import com.astro.test.glenntuyu.databinding.FragmentSortOrderBottomSheetBinding
@@ -54,6 +55,9 @@ class SortOrderBottomSheetFragment: BottomSheetDialogFragment(), SortOrderBottom
         viewBinding?.sortOrderBottomSheetRecyclerView?.let { rv ->
             rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             rv.adapter = SortOrderBottomSheetAdapter(this)
+
+            val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            rv.addItemDecoration(decoration)
         }
     }
 

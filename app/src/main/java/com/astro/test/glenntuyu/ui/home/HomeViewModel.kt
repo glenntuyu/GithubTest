@@ -1,4 +1,4 @@
-package com.astro.test.glenntuyu.ui
+package com.astro.test.glenntuyu.ui.home
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import androidx.paging.cachedIn
 import com.astro.test.glenntuyu.data.model.GithubUserModel
 import com.astro.test.glenntuyu.domain.GetUserListUseCase
 import com.astro.test.glenntuyu.ui.intent.HomeIntent
-import com.astro.test.glenntuyu.ui.viewstate.HomeState
+import com.astro.test.glenntuyu.ui.state.HomeState
 import com.astro.test.glenntuyu.util.Constant.ASCENDING
 import com.astro.test.glenntuyu.util.Constant.DEFAULT_QUERY
 import com.astro.test.glenntuyu.util.Constant.LAST_QUERY_SCROLLED

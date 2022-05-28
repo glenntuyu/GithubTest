@@ -1,4 +1,4 @@
-package com.astro.test.glenntuyu.ui.viewstate
+package com.astro.test.glenntuyu.ui.state
 
 import com.astro.test.glenntuyu.util.Constant.DEFAULT_QUERY
 

@@ -1,10 +1,10 @@
-package com.astro.test.glenntuyu.ui
+package com.astro.test.glenntuyu.ui.home
 
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.astro.test.glenntuyu.R
 import com.astro.test.glenntuyu.data.model.GithubUserModel
-import com.astro.test.glenntuyu.databinding.UserViewHolderBinding
+import com.astro.test.glenntuyu.databinding.UserItemViewHolderBinding
 import com.astro.test.glenntuyu.util.setTextAndCheckShow
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -12,7 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 /**
  * Created by glenntuyu on 26/05/2022.
  */
-class UserViewHolder(private val binding: UserViewHolderBinding, private val userListListener: UserListListener): RecyclerView.ViewHolder(binding.root) {
+class UserViewHolder(private val binding: UserItemViewHolderBinding, private val userListListener: UserListListener): RecyclerView.ViewHolder(binding.root) {
 
     fun bind(data: GithubUserModel) {
         bindUserIcon(data)
@@ -45,9 +45,9 @@ class UserViewHolder(private val binding: UserViewHolderBinding, private val use
 
     companion object {
         @LayoutRes
-        val LAYOUT = R.layout.user_view_holder
+        val LAYOUT = R.layout.user_item_view_holder
 
-        fun create(binding: UserViewHolderBinding, userListListener: UserListListener): UserViewHolder {
+        fun create(binding: UserItemViewHolderBinding, userListListener: UserListListener): UserViewHolder {
             return UserViewHolder(binding, userListListener)
         }
     }

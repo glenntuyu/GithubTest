@@ -20,16 +20,11 @@ class UserDetailFragment : Fragment() {
     private var viewBinding: FragmentUserDetailBinding? = null
     private val viewModel: UserDetailViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_detail, container, false)
-
         return viewBinding?.root
     }
 

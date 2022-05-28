@@ -15,14 +15,6 @@ import retrofit2.http.Query
  */
 interface GithubService {
 
-    @GET("search/users?s=followers&type=Users")
-    suspend fun getUserList(
-        @Query("q") query: String,
-        @Query("page") page: Int,
-        @Query("per_page") pageSize: Int,
-        @Query("o") order: String,
-    ): GetGithubUserResponseModel
-
     companion object {
         private const val BASE_URL = "https://api.github.com/"
         const val IN_QUALIFIER = "in:login"
@@ -42,6 +34,14 @@ interface GithubService {
                 .create(GithubService::class.java)
         }
     }
+
+    @GET("search/users?s=followers&type=Users")
+    suspend fun getUserList(
+        @Query("q") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int,
+        @Query("o") order: String,
+    ): GetGithubUserResponseModel
 
     @GET("users/{username}")
     suspend fun getUserDetail(

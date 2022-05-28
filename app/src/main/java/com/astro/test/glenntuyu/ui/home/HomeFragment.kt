@@ -41,7 +41,6 @@ class HomeFragment: Fragment(), UserListListener {
     ): View? {
         setHasOptionsMenu(true)
         viewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-
         return viewBinding?.root
     }
 
@@ -51,12 +50,8 @@ class HomeFragment: Fragment(), UserListListener {
         handleArgs()
         toastSortOrder()
         initEditText()
-        viewBinding?.bindState(
-            uiState = viewModel.state,
-            pagingData = viewModel.userPagingDataFlow,
-            uiActions = viewModel.accept
-        )
-        viewModel.startSearch()
+        bindState()
+        startSearch()
     }
 
     private fun handleArgs() {
@@ -71,6 +66,14 @@ class HomeFragment: Fragment(), UserListListener {
 
     private fun initEditText() {
         viewBinding?.homeEditText?.setText(viewModel.getInitialQuery())
+    }
+
+    private fun bindState() {
+        viewBinding?.bindState(
+            uiState = viewModel.state,
+            pagingData = viewModel.userPagingDataFlow,
+            uiActions = viewModel.accept
+        )
     }
 
     private fun FragmentHomeBinding.bindState(
@@ -182,13 +185,17 @@ class HomeFragment: Fragment(), UserListListener {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
+    private fun startSearch() {
+        viewModel.startSearch()
     }
 
     fun putQueryToArguments() {
         val action = HomeFragmentDirections.moveToSortOrder(viewModel.getQuery())
         findNavController().navigate(action)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
     }
 
     override fun onDestroyView() {

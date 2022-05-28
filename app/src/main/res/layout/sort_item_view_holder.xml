@@ -12,7 +12,7 @@
             android:id="@+id/sort_item_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/dp_8"
             android:hint="@string/user"
             android:maxLines="1"
             style="@style/Body_1"

@@ -34,16 +34,16 @@ class UserDetailViewModel @Inject constructor(
                 username
             )
         } ?: run {
-            onThrowMessageMutableLiveData.postValue(ERROR_MESSAGE_USERNAME_IS_EMPTY)
+            onThrowMessageMutableLiveData.value = ERROR_MESSAGE_USERNAME_IS_EMPTY
         }
     }
 
     private fun onGetUserDetailSuccess(model: GithubUserModel) {
         val dataView = model.toUserDetailDataView()
-        onGetUserDetailMutableLiveData.postValue(dataView)
+        onGetUserDetailMutableLiveData.value = dataView
     }
 
     private fun onGetUserDetailError(throwable: Throwable) {
-        onThrowMessageMutableLiveData.postValue(throwable.message)
+        onThrowMessageMutableLiveData.value = throwable.message
     }
 }

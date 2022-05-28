@@ -25,9 +25,9 @@ class SortOrderBottomSheetViewModel @Inject constructor(): ViewModel() {
 
     fun getSortOrderType(text: String) {
         if (text == MOST_FOLLOWERS) {
-            sortMutableLiveData.postValue(DESCENDING)
+            sortMutableLiveData.value = DESCENDING
         } else if (text == FEWEST_FOLLOWERS) {
-            sortMutableLiveData.postValue(ASCENDING)
+            sortMutableLiveData.value = ASCENDING
         }
     }
 

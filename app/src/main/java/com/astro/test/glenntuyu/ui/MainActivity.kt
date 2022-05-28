@@ -31,14 +31,10 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.main_fragment) as NavHostFragment? ?: return
 
         val navController = host.navController
+
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
-        setupActionBar(navController, appBarConfiguration)
-    }
-
-    private fun setupActionBar(navController: NavController,
-                               appBarConfig : AppBarConfiguration) {
-        setupActionBarWithNavController(navController, appBarConfig)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

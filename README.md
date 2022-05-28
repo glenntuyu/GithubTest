@@ -27,5 +27,5 @@ Astro Test uses the Github API ("https://api.github.com/")
 - Homepage is more focused on new tech stack  like MVI, Paging, and Flow
 
 ## Preview
-<img src="/previews/home.PNG" width="50%" />
-<img src="/previews/userDetail.PNG" width="50%"/>
+<img src="/previews/home.png" width="50%" />
+<img src="/previews/userDetail.png" width="50%"/>
